@@ -17,12 +17,25 @@
 
 # print(i2)
 
-import turtle
-turtle.begin_fill()
-turtle.goto(0,100)
-turtle.goto(100,100)
-turtle.goto(100,0)
-turtle.goto(0,0)
-turtle.end_fill()
-turtle.mainloop()
+# import turtle
+# turtle.begin_fill()
+# turtle.goto(0,100)
+# turtle.goto(100,100)
+# turtle.goto(100,0)
+# turtle.goto(0,0)
+# turtle.end_fill()
+# turtle.mainloop()
 
+import turtle
+turtle.pencolor("white")
+turtle.penup()
+turtle.goto(-100,50)
+turtle.pendown()
+turtle.begin_fill()
+turtle.circle(75)
+turtle.penup()
+turtle.forward(-25)
+turtle.pendown()
+turtle.circle(100)
+turtle.pencolor("blue")
+turtle.end_fill()
