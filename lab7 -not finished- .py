@@ -11,6 +11,13 @@ class Ball(Turtle):
 		self.color(color)
 		self.speed(speed)
 		self.penup()
+		
+	def move(self,):
+		oldx = self.xcor()
+		oldy = self.ycor()
+		newx = oldx + speed
+		newy = oldy + speed
+		self.goto(newx,newy)
 def check_collision(ball1,ball2):
 	p1 = ball1.position()
 	p2 = ball2.position()
@@ -19,10 +26,9 @@ def check_collision(ball1,ball2):
 		return True
 	return False
 
+
 b1 = Ball(50, 'blue', 100)
 b2 = Ball(20, 'red', 100)
 print(check_collision(b1,b2))
+b1.move()
 turtle.mainloop()
-ls = [b1,b2]
-if (ls[1].radius >= ls[0].radius):
-	ls[1].goto(random.randint())
