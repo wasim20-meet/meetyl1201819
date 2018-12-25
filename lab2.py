@@ -1,5 +1,5 @@
-##import Tkinter as tk
-##from Tkinter import SimpleDialog
+# import Tkinter as tk
+# import tkSimpleDialog as simpledialog
 
 # a=[5,10,15,20,25]
 # def lis1 (a):
@@ -27,4 +27,12 @@
 
 # print(c)
 
-## answer = simpledialog.askstring("input","Your message here!", parent = tk.Tk().withdraw())
+
+# Num = simpledialog.askstring("input","Enter a Number", parent = tk.Tk().withdraw())
+# Num = int(Num)
+# if ((Num % 2 != 0) and (Num % 3 != 0) and (Num % 5 != 0) and (Num % 7 != 0)):
+# 	print("Prime")
+# elif ((Num == 2) or (Num == 3) or (Num == 5) or (Num ==7)):
+# 	print("Prime")
+# else:
+# 	print("Not Prime")

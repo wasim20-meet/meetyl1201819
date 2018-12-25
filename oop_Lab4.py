@@ -36,3 +36,13 @@
 # crazy.scream()
 
 
+# class Song(object):
+# 	def __init__ (self,lyrics):
+# 		self.lyrics = lyrics
+# 	def sing_me_a_song(self):
+# 		for x in range(len(self.lyrics)):
+# 			print(self.lyrics[x])
+
+# flower_song = Song(["Roses are red,", "Violets are blue,","I wrote this poem for you"])
+# flower_song.sing_me_a_song()
+# print(flower_song.lyrics)
