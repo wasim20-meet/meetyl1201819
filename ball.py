@@ -3,6 +3,7 @@ from turtle import Turtle
 class Ball (Turtle):
 	def __init__ (self,x,y,dx,dy,r,color):
 		Turtle.__init__(self)
+		self.speed(100)
 		self.penup()
 		self.goto(x,y)
 		self.dx = dx
@@ -16,7 +17,6 @@ class Ball (Turtle):
 		Right_edge = screen_width
 		Down_edge = screen_height * -1
 		Left_edge = screen_width * -1
-		
 		current_x = self.xcor()
 		current_y = self.ycor()
 		new_x = current_x + self.dx
@@ -29,4 +29,4 @@ class Ball (Turtle):
 			self.dx = self.dx * -1
 		if ((up_side > Up_edge) or (down_side < Down_edge)):
 			self.dy = self.dy * -1
-		self.goto(new_x,new_y)
+			self.goto(new_x,new_y)
