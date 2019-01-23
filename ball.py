@@ -29,4 +29,4 @@ class Ball (Turtle):
 			self.dx = self.dx * -1
 		if ((up_side > Up_edge) or (down_side < Down_edge)):
 			self.dy = self.dy * -1
-			self.goto(new_x,new_y)
+		self.goto(new_x,new_y)
