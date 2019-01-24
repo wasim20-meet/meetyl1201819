@@ -1,7 +1,7 @@
 import turtle
 from turtle import Turtle
 class Ball (Turtle):
-	def __init__ (self,x,y,dx,dy,r,color):
+	def __init__ (self,x,y,dx,dy,r,color,n):
 		Turtle.__init__(self)
 		self.speed(100)
 		self.penup()
@@ -12,6 +12,7 @@ class Ball (Turtle):
 		self.shape("circle")
 		self.shapesize(r/10)
 		self.color(color)
+		self.name = n
 	def move(self,screen_width,screen_height):
 		Up_edge = screen_height
 		Right_edge = screen_width

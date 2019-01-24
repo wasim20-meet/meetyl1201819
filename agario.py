@@ -4,22 +4,33 @@ import random
 from ball import Ball
 import math
 import time
-turtle.hideturtle()
+import string
+import Tkinter as tk
+import tkSimpleDialog as simpledialog
+namemb = simpledialog.askstring("Input", "Enter Name", parent=tk.Tk().withdraw())
+colmb = simpledialog.askstring("Input", "Enter Color", parent=tk.Tk().withdraw())
+radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
+while (radmb > 50 or radmb <10):
+	if ((radmb > 50) or (radmb < 10)):
+		radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
+
+
+# turtle.colormode(255)
 RUNNING = True
 SLEEP = 0.0077
 SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 turtle.tracer(0,0)
-MY_BALL = Ball(0,0,0,0,30,"red")
+MY_BALL = Ball(0,0,0,0,radmb,colmb,namemb)
 score = turtle.clone()
-score.penup()
-score.goto(score.pos()[0], score.pos()[1] + 50)
+score.hideturtle()
+pos = score.pos()
+turtle.hideturtle()
 turtle.bgcolor("black")
-score.pencolor("white")
 turtle.pencolor("white")
 NUMBER_OF_BALLS = 5
-MINIMUM_BALL_RADIUS = 10
-MAXIMUM_BALL_RADIUS = 50
+MINIMUM_BALL_RADIUS = 20
+MAXIMUM_BALL_RADIUS = 60
 MINIMUM_BALL_DX = -5
 MAXIMUM_BALL_DX = 5
 MINIMUM_BALL_DY = -5
@@ -28,6 +39,7 @@ BALLS = []
 NUMBER_OF_DOTS = 20
 RADIUS_OF_DOTS = 10
 DOTS = []
+score.penup()
 
 
 for n in range(NUMBER_OF_BALLS):
@@ -37,7 +49,8 @@ for n in range(NUMBER_OF_BALLS):
 	dy = random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)
 	radius = random.randint(MINIMUM_BALL_RADIUS, MAXIMUM_BALL_RADIUS)
 	color = (random.random(), random.random(), random.random())
-	new_ball = Ball(x,y,dx,dy,radius,color)
+	new_ball = Ball(x,y,dx,dy,radius,color,color)
+
 	BALLS.append(new_ball)
 
 
@@ -46,7 +59,7 @@ for dot in range(NUMBER_OF_DOTS):
 	y = random.randint((-SCREEN_HEIGHT + 20) + MAXIMUM_BALL_RADIUS, (SCREEN_HEIGHT -20)- MAXIMUM_BALL_RADIUS)
 	radius = RADIUS_OF_DOTS
 	color = (random.random(), random.random(), random.random())
-	New_dot = Ball(x,y,0,0,radius,color)
+	New_dot = Ball(x,y,0,0,radius,color,"dot")
 	DOTS.append(New_dot)
 
 
@@ -69,6 +82,9 @@ def collide(ball_a,ball_b):
 			return True
 		else:
 			return False
+
+# def scoreboard():
+
 
 def dotcollision(ball,dot):
 	ax = ball.xcor()
@@ -114,6 +130,7 @@ def check_all_balls_collision():
 					ball_a.dy = Y_axis_speed
 					ball_a.r = Radius
 					ball_a.color(Color)
+					ball_a.name = Color
 					ball_a.shapesize(Radius/10)
 					ball_b.r += 4
 					ball_a.shapesize(ball_a.r/10)	
@@ -124,6 +141,7 @@ def check_all_balls_collision():
 					ball_b.dy = Y_axis_speed
 					ball_b.r = Radius
 					ball_b.color(Color)
+					ball_b.name = Color
 					ball_b.shapesize(ball_b.r/10)
 					ball_a.r += 4
 					ball_a.shapesize(ball_a.r/10)
@@ -139,7 +157,9 @@ def check_myball_collision():
 					h.dx = random.randint(MINIMUM_BALL_DX, MAXIMUM_BALL_DX)
 					h.dy = random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)
 					h.r = random.randint(MINIMUM_BALL_RADIUS, MAXIMUM_BALL_RADIUS)
-					h.color((random.random(), random.random(), random.random()))
+					color =((random.random(), random.random(), random.random()))
+					h.color(color)
+					h.name = color
 					MY_BALL.r += 4
 					MY_BALL.shapesize(MY_BALL.r/10)
 					h.shapesize(h.r / 10)
@@ -151,6 +171,19 @@ def movearound(event):
 	MY_BALL.goto(X,Y)
 turtle.getcanvas().bind("<Motion>", movearound)
 turtle.listen()
+
+def scoreboard():
+	score.goto(SCREEN_WIDTH -50 ,pos[1])
+	ball1 =[]
+	ball2 = BALLS
+	for ball3 in ball2:
+		score.pencolor("white")
+		score.pencolor((ball3.name))
+		score.write(str(ball3.r), align = "right", font = ("Arial",20,"normal"))
+		score.goto(SCREEN_WIDTH - 50 , score.ycor() - 30)
+	score.pencolor((colmb))
+	score.write(str(MY_BALL.r), align = "right", font = ("Arial",20,"normal"))
+
 
 
 def lost():
@@ -172,13 +205,14 @@ while RUNNING == True:
 	if check_myball_collision() == False:
 		lost()
 		break
-	elif (MY_BALL.r > 150):
+	elif ((MY_BALL.r >= 150) and (MY_BALL.r > max(BALLS[0].r,BALLS[1].r,BALLS[2].r,BALLS[3].r,BALLS[4].r))):
 		won()
 		break
 	dotball()
+	scoreboard()
 	myballdot()
-	score.write(MY_BALL.r, align = "center", font = ("Arial",10,"normal"))
 	time.sleep(SLEEP)
 	turtle.update()
 	score.clear()
 
+#the scoreboard
