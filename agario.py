@@ -7,11 +7,13 @@ import time
 import string
 import Tkinter as tk
 import tkSimpleDialog as simpledialog
+
 colmb = simpledialog.askstring("Input", "Enter Color", parent=tk.Tk().withdraw())
 radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
 while (radmb > 50 or radmb <10):
 	if ((radmb > 50) or (radmb < 10)):
 		radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
+
 
 RUNNING = True
 SLEEP = 0.0077
@@ -33,15 +35,15 @@ MAXIMUM_BALL_DX = 5
 MINIMUM_BALL_DY = -5
 MAXIMUM_BALL_DY = 5
 BALLS = []
-NUMBER_OF_DOTS = 20
+NUMBER_OF_DOTS = 50
 RADIUS_OF_DOTS = 10
 DOTS = []
 score.penup()
-
+turtle.setup(1920,1020)
 
 for n in range(NUMBER_OF_BALLS):
-	x = random.randint((-SCREEN_WIDTH + 20) + MAXIMUM_BALL_RADIUS, (SCREEN_WIDTH - 20) - MAXIMUM_BALL_RADIUS)
-	y = random.randint((-SCREEN_HEIGHT + 20) + MAXIMUM_BALL_RADIUS, (SCREEN_HEIGHT -20)- MAXIMUM_BALL_RADIUS)
+	x = random.randint((-SCREEN_WIDTH) + MAXIMUM_BALL_RADIUS, (SCREEN_WIDTH ) - MAXIMUM_BALL_RADIUS)
+	y = random.randint((-SCREEN_HEIGHT) + MAXIMUM_BALL_RADIUS, (SCREEN_HEIGHT )- MAXIMUM_BALL_RADIUS)
 	dx = random.randint(MINIMUM_BALL_DX, MAXIMUM_BALL_DX)
 	dy = random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)
 	radius = random.randint(MINIMUM_BALL_RADIUS, MAXIMUM_BALL_RADIUS)
@@ -49,6 +51,7 @@ for n in range(NUMBER_OF_BALLS):
 	new_ball = Ball(x,y,dx,dy,radius,color,color)
 
 	BALLS.append(new_ball)
+
 
 
 for dot in range(NUMBER_OF_DOTS):
@@ -107,6 +110,7 @@ def myballdot():
 			MY_BALL.shapesize(MY_BALL.r/10)
 			dot.goto(random.randint(-SCREEN_WIDTH, SCREEN_WIDTH),random.randint(-SCREEN_HEIGHT, SCREEN_HEIGHT))
 
+
 def check_all_balls_collision():
 	for ball_a in BALLS:
 		for ball_b in BALLS:
@@ -119,6 +123,7 @@ def check_all_balls_collision():
 				Y_axis_speed = random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)
 				Radius = random.randint(MINIMUM_BALL_RADIUS, MAXIMUM_BALL_RADIUS)
 				Color = (random.random(), random.random(), random.random())
+				
 				if ball_a.r < ball_b.r:
 					ball_a.goto(X_coordinate,Y_coordinate)
 					ball_a.dx = X_axis_speed
@@ -140,6 +145,7 @@ def check_all_balls_collision():
 					ball_b.shapesize(ball_b.r/10)
 					ball_a.r += 4
 					ball_a.shapesize(ball_a.r/10)
+
 def check_myball_collision():
 	for h in BALLS:
 		if collide(MY_BALL,h):
@@ -169,14 +175,14 @@ turtle.listen()
 
 def scoreboard():
 	score.goto(SCREEN_WIDTH -50 ,pos[1])
-	ball1 =[]
 	ball2 = BALLS
 	for ball3 in ball2:
+		score.goto(SCREEN_WIDTH - 50 , score.ycor() - 30)
 		score.pencolor("white")
 		score.pencolor((ball3.name))
 		score.write(str(ball3.r), align = "right", font = ("Arial",20,"normal"))
-		score.goto(SCREEN_WIDTH - 50 , score.ycor() - 30)
 	score.pencolor((colmb))
+	score.goto(SCREEN_WIDTH - 50 , score.ycor() - 30)
 	score.write(str(MY_BALL.r), align = "right", font = ("Arial",20,"normal"))
 
 
@@ -193,16 +199,25 @@ def won():
 		break
 
 while RUNNING == True:
+	for ii in range(len(BALLS) -1):
+		if BALLS[ii].r < BALLS[ii +1].r:
+			temp = BALLS[ii]
+			BALLS[ii] = BALLS[ii +1]
+			BALLS[ii+1] = temp
 	move_all_balls(SCREEN_WIDTH,SCREEN_HEIGHT)
 	check_all_balls_collision()
 	SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 	SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 	if check_myball_collision() == False:
 		lost()
-		break
+		RUNNING = False
 	elif ((MY_BALL.r >= 150) and (MY_BALL.r > max(BALLS[0].r,BALLS[1].r,BALLS[2].r,BALLS[3].r,BALLS[4].r))):
 		won()
-		break
+		RUNNING = False
+	for iii in BALLS:
+		if iii.r > 150:
+			lost()
+			RUNNING = False
 	dotball()
 	scoreboard()
 	myballdot()
