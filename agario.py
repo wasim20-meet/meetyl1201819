@@ -7,21 +7,18 @@ import time
 import string
 import Tkinter as tk
 import tkSimpleDialog as simpledialog
-namemb = simpledialog.askstring("Input", "Enter Name", parent=tk.Tk().withdraw())
 colmb = simpledialog.askstring("Input", "Enter Color", parent=tk.Tk().withdraw())
 radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
 while (radmb > 50 or radmb <10):
 	if ((radmb > 50) or (radmb < 10)):
 		radmb = int(simpledialog.askstring("Input", "Enter radius between 10 and 50", parent=tk.Tk().withdraw()))
 
-
-# turtle.colormode(255)
 RUNNING = True
 SLEEP = 0.0077
 SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
 SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 turtle.tracer(0,0)
-MY_BALL = Ball(0,0,0,0,radmb,colmb,namemb)
+MY_BALL = Ball(0,0,0,0,radmb,colmb,colmb)
 score = turtle.clone()
 score.hideturtle()
 pos = score.pos()
@@ -82,8 +79,6 @@ def collide(ball_a,ball_b):
 			return True
 		else:
 			return False
-
-# def scoreboard():
 
 
 def dotcollision(ball,dot):
@@ -214,5 +209,3 @@ while RUNNING == True:
 	time.sleep(SLEEP)
 	turtle.update()
 	score.clear()
-
-#the scoreboard

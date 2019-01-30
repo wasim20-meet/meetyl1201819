@@ -24,7 +24,7 @@ b1 = Ball(50, 'blue', 10)
 b2 = Ball(20, 'red', 15)
 ballslist = [b1,b2]
 while(check_collision(b1,b2) == True):
-	if(ballslist[0].radius <= ballslist[1].radius):
+	if(ballslist[0].radius < ballslist[1].radius):
 		ballslist[0].goto((random.randint(1,450)),(random.randint(1,450)))
 	else:
 		ballslist[1].goto((random.randint(1,450)),(random.randint(1,450)))
