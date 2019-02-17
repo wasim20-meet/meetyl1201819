@@ -1,0 +1,13 @@
+TODO
+effects
+inventory
+screens
+weapons
+armor
+fights
+set tkinter frames place
+enemies move to you when you are close to them (4 steps close) by using distance and dividing steps by 4
+
+inventory => if potion in item.desc -> use
+			if weapon in item.desc -> equip weapon
+			if armor in item.desc -> equip armor
