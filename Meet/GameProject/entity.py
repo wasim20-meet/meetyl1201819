@@ -1,23 +1,24 @@
 import turtle
 from turtle import *
-
 turtle.tracer(0.0)
+
 class Entity(Turtle):
-	def __init__(self,Ctype,HP,Chp,MP,Cmp,defense,strength,effects,Weapon,Armor,Spells,sprite,Inventory,Quests):
+	def __init__(self,Ctype,HP,Chp,MP,Cmp,defense,strength,effects,Weapon,Armor,Spells,sprite,Inventory,Quests,Balance,level):
 		Turtle.__init__(self)
 		self.penup()
 		self.speed(100)
+		self.level = level
 		self.Ctype = Ctype
 		self.HP = HP
 		self.Chp = Chp
 		self.MP = MP
 		self.Cmp = Cmp
 		self.Armor = Armor
-		self.defense = self.Armor.protection + defense
+		self.defense = self.Armor.protection + (defense * self.level)
 		self.strength = strength
 		self.effects = effects
 		self.Weapon = Weapon
-		self.attack = self.Weapon.damage + self.strength
+		self.attack = self.Weapon.damage + (self.strength * self.level)
 		self.shape(sprite)
 		self.effects.append(Armor.effect)
 		self.effects.append(Weapon.effect)
@@ -25,6 +26,25 @@ class Entity(Turtle):
 		self.Quests = Quests
 		self.Spells = Spells
 		self.movement = 20
+		self.Balance = Balance
+		
+
+
+
+	def Attack(self,b):
+		if self.attack > b.defense:
+			b.Chp -= (self.attack - b.defense)
+		else:
+			b.Chp -= 1
+
+	def EquipWeapon(self,Weapon):
+		self.Weapon = Weapon
+		self.effects.append(Weapon.effect)
+
+	def EquipArmor(self,Armor):
+		self.Armor =Armor
+		self.effects.append(Armor.effect)
+
 
 class Weapon(object):
 	def __init__(self,name,damage,effect):
@@ -39,15 +59,6 @@ class Armor(object):
 		self.protection = protection
 		self.effect = effect
 		self.type = "Armor"
-
-		
-class Pot(object):
-	def __init__ (self, name, Ptype, Quantity, desc):
-		self.name = name
-		self.Ptype = Ptype
-		self.Quantity = Quantity
-		self.desc = desc
-		self.type = "Potion"
 
 class Effects(object):
 	def __init__(self, name, desc):
