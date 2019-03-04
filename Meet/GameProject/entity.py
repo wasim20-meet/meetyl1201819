@@ -3,7 +3,7 @@ from turtle import *
 turtle.tracer(0.0)
 
 class Entity(Turtle):
-	def __init__(self,Ctype,HP,Chp,MP,Cmp,defense,strength,effects,Weapon,Armor,Spells,sprite,Inventory,Quests,Balance,level):
+	def __init__(self,Ctype,HP,Chp,MP,Cmp,defence,strength,effects,Weapon,Armor,Spells,sprite,Inventory,Quests,Balance,level):
 		Turtle.__init__(self)
 		self.penup()
 		self.speed(100)
@@ -14,7 +14,8 @@ class Entity(Turtle):
 		self.MP = MP
 		self.Cmp = Cmp
 		self.Armor = Armor
-		self.defense = self.Armor.protection + (defense * self.level)
+		self.defence = defence
+		self.defense = self.Armor.protection + (self.defence * self.level)
 		self.strength = strength
 		self.effects = effects
 		self.Weapon = Weapon
@@ -27,7 +28,11 @@ class Entity(Turtle):
 		self.Spells = Spells
 		self.movement = 20
 		self.Balance = Balance
-		
+
+	def lvlup(self):
+		self.level += 1
+		self.attack = self.Weapon.damage + (self.strength * self.level)
+		self.defense = self.Armor.protection + (self.defence * self.level)
 
 
 

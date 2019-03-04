@@ -6,42 +6,53 @@ import random
 import circle
 from circle import Circle
 from array import *
-turtle.tracer(10,1)
-listcol=["sky blue","hot pink","tan","gold"]
-turtle.pensize(5)
-turtle.penup()
-turtle.goto(-500,400)
-turtle.pendown()
-turtle.speed(0)
-#turtle.setup(2000,2000)
-times=0
-for i in range (4):
-	turtle.forward(900)
-	turtle.right(90)
-for i in range(5):
-	turtle.forward(90)
-	turtle.right(90)
-	turtle.forward(900)
-	turtle.left(90)
-	turtle.forward(90)
-	turtle.left(90)
-	turtle.forward(900)
-	turtle.right(90)
-for i in range(5): # 10 rows
-	turtle.right(90)
-	turtle.forward(90)
-	turtle.right(90)
-	turtle.forward(900)
-	turtle.left(90)
-	turtle.forward(90)
-	turtle.left(90)
-	turtle.forward(900)
-score=0
-move_left=25
-print("Welcome! You have to get 1,500 points to move left press l to move right press r")
-print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left" )
-w, h = 10, 10;
-Matrix = [[0 for x in range(w)] for y in range(h)] #making 	2D array 10*10
+
+
+def start():
+	turtle.showturtle()
+	turtle.tracer(10,1)
+	global listcol
+	listcol=["sky blue","hot pink","tan","gold"]
+	turtle.pensize(5)
+	turtle.penup()
+	turtle.goto(-500,400)
+	turtle.pendown()
+	turtle.speed(0)
+	turtle.setup(960,910)
+	global times
+	times=0
+	for i in range (4):
+		turtle.forward(900)
+		turtle.right(90)
+	for i in range(5):
+		turtle.forward(90)
+		turtle.right(90)
+		turtle.forward(900)
+		turtle.left(90)
+		turtle.forward(90)
+		turtle.left(90)
+		turtle.forward(900)
+		turtle.right(90)
+	for i in range(5): # 10 rows
+		turtle.right(90)
+		turtle.forward(90)
+		turtle.right(90)
+		turtle.forward(900)
+		turtle.left(90)
+		turtle.forward(90)
+		turtle.left(90)
+		turtle.forward(900)
+	
+	turtle.hideturtle()
+	global score
+	score=0
+	global move_left
+	move_left=25
+	print("Welcome! You have to get 1,500 points to move left press l to move right press r")
+	print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left" )
+	w, h = 10, 10;
+	global Matrix
+	Matrix = [[0 for x in range(w)] for y in range(h)] #making 	2D array 10*10
 def make(): #makes the balls
 	for row in range(10):
 		for col in range(10):
@@ -140,8 +151,8 @@ def clear_bor():
 
 def movearound(event):
 	turtle.penup()
-	turtle.hideturtle()
-	turtle.goto(event.x-475,405-event.y)
+
+	turtle.goto(event.x-475,440-event.y)
 	return(turtle.pos())
 def r(): #switch the posion of tlhe bal to the one on it's right
 	global score,move_left
@@ -216,21 +227,6 @@ def l():
 
 
 
-make()
-clear_bor()
 
+		
 
-while move_left>0:
-	turtle.getcanvas().bind("<Motion>", movearound)
-	turtle.onkeypress(r,"r")
-	turtle.onkeypress(l,"l")
-	s= turtle.getscreen()
-	turtle.update()
-	turtle.listen()
-	if score>=1500:
-		print("whooooo")
-
-time.sleep(3)
-quit()
-
-turtle.mainloop()

@@ -15,11 +15,12 @@ from Armor import *
 import Effects
 from Effects import *
 import random
+from intro import wizard
 global BG
 
 
 global Sk
-Sk = Entity("Monster",50,50,25,25,5,15,[],Hand,Bone,[],"SkeletonStanding.gif",[],[],random.randint(1,50),random.randint(1,3))
+Sk = Entity("Monster",50,50,25,25,3,15,[],Hand,Bone,[],"SkeletonStanding.gif",[],[],random.randint(1,50),random.randint(1,3))
 
 Sk.goto(0,500)
 
@@ -30,7 +31,7 @@ turtle.tracer(0.0)
 turtle.bgpic(BG)
 turtle.hideturtle()
 global Princess
-Princess = Entity("Princess",150,150,200,200,0,15,[],Stick,Cape,[],"CharacterRight.gif",[],[],0,1)
+Princess = Entity("Princess",150,150,200,200,5,15,[],Stick,Cape,[],"CharacterRight.gif",[],[],1400,1)
 
 def HealSM():
 	global HealSF
@@ -172,6 +173,7 @@ def F2():
 
 def PrincessM():
 	PrincessF = Tk()
+	LevelL = Label(PrincessF, text = "Level - " + str(Princess.level))
 	HPL = Label(PrincessF, text = "HP =" + str(Princess.HP) + "/" + str(Princess.Chp))
 	MPL = Label(PrincessF, text = "MP = " + str(Princess.MP) + "/" + str(Princess.Cmp))
 	BalanceL = Label(PrincessF, text = "Bal =" + str(Princess.Balance))
@@ -180,6 +182,7 @@ def PrincessM():
 	WeaponL = Label(PrincessF, text = "Weapon - " + Princess.Weapon.name)
 	ArmorL = Label(PrincessF, text = "Armor - " + Princess.Armor.name)
 	MovementL = Label(PrincessF, text = "Movement =" + str(Princess.movement))
+	LevelL.pack()
 	HPL.pack()
 	MPL.pack()
 	BalanceL.pack()
@@ -192,6 +195,7 @@ def PrincessM():
 
 
 def save():
+	global BG
 	shelfFile = shelve.open('save')
 	shelfFile['Screen'] = BG
 	shelfFile['PrincessCurrentHP'] = Princess.Chp
@@ -207,6 +211,9 @@ def save():
 	# shelfFile['Spells'] = Princess.Spells
 	shelfFile['Movement'] = Princess.movement
 	shelfFile['Balance'] = Princess.Balance
+	shelfFile['Level'] = Princess.level 
+	shelfFile['Damage'] = Princess.attack
+	shelfFile['Defense'] = Princess.defense
 	shelfFile.close()
 
 def load():
@@ -225,17 +232,27 @@ def load():
 	# Princess.Spells = shelfFile['Spells']
 	Princess.movement = shelfFile['Movement']
 	Princess.Balance = shelfFile['Balance']
+	Princess.level = shelfFile['Level']
+	Princess.attack = shelfFile['Damage']
+	Princess.defense = shelfFile['Defense'] 
 	turtle.setup(shelfFile['size'][0],shelfFile['size'][1])
 	global BG
-	BG=shelfFile['Screen']
+	BG = shelfFile['Screen']
 	turtle.bgpic(BG)
 	if BG == "castleIn.gif":
 		turtle.setup(740,750)
+		wizard.showturtle()
 	if BG == "CastleOut.gif":
 		turtle.setup(560,450)
+		wizard.hideturtle()
 	if BG == "Yard1.gif":
 		turtle.setup(560,450)
+		wizard.hideturtle()
 	if BG == "Yard2.gif":
 		turtle.setup(560,450)
+		wizard.hideturtle()
+	if BG == "Yard3.gif":
+		turtle.setup(560,450)
+		wizard.hideturtle()
 	Princess.goto(shelfFile['Position'][0],shelfFile['Position'][1])
 	shelfFile.close()

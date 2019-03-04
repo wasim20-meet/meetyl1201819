@@ -56,7 +56,7 @@ def intro(x,y):
 	turtle.write("She demanded to rule the kingdom, but the prince refused.", align = ("center"), font = ("comic sans MS", 20, "bold"))
 	time.sleep(4)
 	turtle.clear()
-	turtle.write("She snnaped her fingers...", align = ("center"), font = ("comic sans MS", 25, "bold"))
+	turtle.write("She snapped her fingers...", align = ("center"), font = ("comic sans MS", 25, "bold"))
 	time.sleep(4)
 	turtle.clear()
 	turtle.bgcolor("black")

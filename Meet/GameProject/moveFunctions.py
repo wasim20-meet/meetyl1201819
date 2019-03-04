@@ -1,5 +1,7 @@
 import startButtons
 from startButtons import *
+import TIR
+from TIR import *
 import random
 import math
 global Skeleton
@@ -7,6 +9,11 @@ import Screens
 from Screens import *
 import time
 from intro import wizard
+import Buying
+from Buying import *
+
+
+
 healtht = turtle.clone()
 ManaPot = turtle.clone()
 HealthPot = turtle.clone()
@@ -67,14 +74,22 @@ def Skeleton1():
 	Sk.showturtle()
 	Sk.shape("SkeletonStanding.gif")
 
-
+def Skeleton2():
+	Sk.showturtle()
+	Sk.shape()
 	
 def AttackM():
 	global BG
-	Princess.shape("CharacterAttacking.gif")
-	FightingS.withdraw()
+	Princess.shape("Attack2.gif")
 	turtle.update()
-	time.sleep(1)
+	time.sleep(0.09)
+	Princess.shape("CharacterAttacking.gif")
+	turtle.update()
+	time.sleep(0.09)
+	Princess.shape("Attack1.gif")
+	turtle.update()
+	time.sleep(0.5)
+	FightingS.withdraw()
 	Princess.Attack(Sk)
 	Princess.shape("CharacterStandingAttack.gif")
 	turtle.update()
@@ -108,10 +123,16 @@ def WaitM():
 
 def AttackSKM():
 	global BG
-	Sk.shape("SkeletonAttacking.gif")
+	Sk.shape("SkAttacking1.gif")
 	turtle.update()
+	time.sleep(0.09)
+	Sk.shape("SkAttacking2.gif")
+	turtle.update()
+	time.sleep(0.09)
+	Sk.shape("SkAttacking3.gif")
 	Sk.Attack(Princess)
-	time.sleep(1)
+	turtle.update()
+	time.sleep(0.5)
 	Sk.shape("SkeletonStandingAttacking.gif")
 	turtle.update()
 	if Princess.Chp <= 0:
@@ -201,6 +222,7 @@ def RunM():
 		turtle.setup(560,450)
 		Sk.hideturtle()
 		Sk.goto(1000,0)
+		Princess.shape("CharacterRight.gif")
 		healtht.clear()
 		main()
 	else:
@@ -250,7 +272,12 @@ def castleIn():
 			Skeleton1()
 			Sk.goto(random.randint(-260,260),-100)
 			Potions()
-		
+			wizard.hideturtle()
+		if (distance(Princess.pos(),wizard.pos()) < Princess.movement):
+			Buy()
+			Princess.goto(60,0)
+			Princess.shape("CharacterRight.gif")
+	
 
 def castleOut():
 	yListRightCastle = []
@@ -262,11 +289,9 @@ def castleOut():
 			for x in range(155,165):
 				yListRightCastle.append((x,y))
 		for x in range(20,171):
-			for y in range(0,10):
-				xListDownRightCastle.append((x,y))
-		for x in range(-200,20):
-			for y in range(0,10):
-				xListDownLeftCastle.append((x,y))
+				xListDownRightCastle.append((x,20))
+		for x in range(-200,-20):
+				xListDownLeftCastle.append((x,20))
 		for y in range(0,221):
 			for x in range(-200,-190):
 				yListLeftCastle.append(((x,y)))
@@ -278,11 +303,25 @@ def castleOut():
 			Princess.goto(Princess.pos()[0],Princess.pos()[1]-Princess.movement)
 		if Princess.pos() in xListDownRightCastle:
 			Princess.goto(Princess.pos()[0],Princess.pos()[1]-Princess.movement)
+		if Princess.pos()[1] + Princess.movement == 220:
+			Princess.goto(Princess.pos()[0],Princess.pos()[1] - Princess.movement)
+		if Princess.pos() == (-20,20) or Princess.pos() == (0,20):
+			startButtons.BG = "castleIn.gif"
+			turtle.bgpic(startButtons.BG)
+			turtle.setup(740,750)
+			Princess.goto(Princess.pos()[0], -200)
+			Sk.hideturtle()
+			Sk.goto(1000,0)
+			ManaPot.goto(1000,0)
+			HealthPot.goto(1000,0)
+			wizard.showturtle()
+			wizard.goto(100,0)
+			wizard.shape("WizardStanding.gif")
 		if Princess.pos()[0] + Princess.movement > 280:
 			ManaPot.goto(1000,0)
 			HealthPot.goto(1000,0)
 			Potions()
-			startButtons.BG = "Yard1.gif"
+			startButtons.BG = "Yard1.gif" # right side
 			turtle.bgpic(startButtons.BG)
 			Princess.goto(-280 + Princess.movement ,Princess.pos()[1])
 			Skeleton1()
@@ -294,7 +333,7 @@ def castleOut():
 			ManaPot.goto(1000,0)
 			HealthPot.goto(1000,0)
 			Potions()
-			startButtons.BG = "Yard2.gif"
+			startButtons.BG = "Yard2.gif" # left side
 			turtle.bgpic(startButtons.BG)
 			Princess.goto(280 - Princess.movement ,Princess.pos()[1])
 			Skeleton1()
@@ -311,12 +350,12 @@ def castleOut():
 			Potions()
 			Skeleton1()
 			Sk.goto(random.randint(-200,200),random.randint(-100,100))
-			startButtons.BG = "Yard3.gif"
+			startButtons.BG = "Yard3.gif" # bottom side
 			turtle.bgpic(startButtons.BG)
 			Princess.goto(Princess.pos()[0],220)
 
 	if startButtons.BG == "Yard1.gif":
-		if Princess.pos()[0] - Princess.movement < -280:
+		if Princess.pos()[0] - Princess.movement < -280: #when u go left u go to the CastleOut screen 
 			Sk.hideturtle()
 			Sk.goto(1000,0)
 			ManaPot.goto(1000,0)
@@ -327,8 +366,13 @@ def castleOut():
 			startButtons.BG = "CastleOut.gif"
 			turtle.bgpic(startButtons.BG)
 			Princess.goto(280 - Princess.movement ,Princess.pos()[1])
+		if Princess.pos()[1] - Princess.movement < -220:
+			Princess.goto(Princess.xcor(),Princess.ycor() + Princess.movement)
+		if Princess.pos()[1] + Princess.movement > 220:
+			Princess.goto(Princess.xcor(),Princess.ycor() - Princess.movement)
+
 	if startButtons.BG == "Yard2.gif":
-		if Princess.pos()[0] + Princess.movement > 280:
+		if Princess.pos()[0] + Princess.movement > 280: # when u go right u go to CastleOut screen
 			Sk.hideturtle()
 			Sk.goto(1000,0)
 			ManaPot.goto(1000,0)
@@ -339,7 +383,11 @@ def castleOut():
 			startButtons.BG = "CastleOut.gif"
 			turtle.bgpic(startButtons.BG)
 			Princess.goto(-280 + Princess.movement ,Princess.pos()[1])
-	if startButtons.BG == "Yard3.gif":
+		if Princess.pos()[1] - Princess.movement < -220:
+			Princess.goto(Princess.xcor(),Princess.ycor() + Princess.movement)
+		if Princess.pos()[1] + Princess.movement > 220:
+			Princess.goto(Princess.xcor(),Princess.ycor() - Princess.movement)
+	if startButtons.BG == "Yard3.gif": # when u go up ...
 		if Princess.pos()[1] + Princess.movement > 240:
 			Sk.hideturtle()
 			Sk.goto(1000,0)
@@ -350,7 +398,35 @@ def castleOut():
 			Sk.goto(random.randint(-260,260),-100)
 			startButtons.BG = "CastleOut.gif"
 			turtle.bgpic(startButtons.BG)
-			Princess.goto(Princess.pos()[1],-220 + Princess.movement)
+			Princess.goto(Princess.pos()[0],-220 + Princess.movement)
+		if Princess.pos()[0] - Princess.movement < -280:
+			Princess.goto(Princess.xcor() + Princess.movement,Princess.ycor())
+		if Princess.pos()[0] + Princess.movement > 280:
+			Princess.goto(Princess.xcor() - Princess.movement,Princess.ycor())
+		if Princess.pos()[1] - Princess.movement < -240:
+			# Princess.hideturtle()
+			wn = turtle.Screen() ##################
+			wn.setup(1000,1000)
+			time.sleep(0.1)
+			wn.update()
+			start()
+			make()
+			clear_bor()
+			s = turtle.getscreen()
+			# turtle.bgpic("Beach.jpg")
+			Sk.hideturtle()
+			while True:
+				turtle.getcanvas().bind("<Motion>", movearound)
+				s.onkey(r,"r")
+				s.onkey(l,"l")
+				turtle.update()
+				s.listen()
+				if TIR.score>=1500:
+					break
+				# if move_left == 0:
+			Princess.goto(Princess.xcor(),Princess.ycor()+100)
+
+
 
 def fightYard():
 	if (distance(Princess.pos(),Sk.pos()) < Princess.movement):
