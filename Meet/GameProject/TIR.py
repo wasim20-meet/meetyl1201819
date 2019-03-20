@@ -6,11 +6,13 @@ import random
 import circle
 from circle import Circle
 from array import *
-
+import Screens
+from Screens import *
 
 def start():
+	turtle.bgpic("sea.gif")
 	turtle.showturtle()
-	turtle.tracer(10,1)
+	# turtle.tracer(10,1)
 	global listcol
 	listcol=["sky blue","hot pink","tan","gold"]
 	turtle.pensize(5)
@@ -45,7 +47,7 @@ def start():
 	
 	turtle.hideturtle()
 	global score
-	score=0
+	score=1400
 	global move_left
 	move_left=25
 	print("Welcome! You have to get 1,500 points to move left press l to move right press r")
@@ -59,6 +61,14 @@ def make(): #makes the balls
 			b1=Circle(row,col)
 			b1.speed(0)
 			Matrix[row][col]=b1
+def unmake(): #clears the screen
+	print("unmaking")
+	for i in range(10):
+		for x in range(10):
+			t1=Matrix[i][x]
+			t1.clear()
+			t1.hideturtle()
+
 def middle(i,x):
 	ball=Matrix[i][x]
 	under_b=Matrix[i-1][x]
@@ -80,6 +90,7 @@ def middle(i,x):
 		right_b.color(right_b.color1)
 		return(True)
 	return(False)
+
 def up_edge(i,x):#input: row and col in the up/down edge #output:if there are three in a row
 	ball=Matrix[i][x]
 	left_b=Matrix[i][x-1]
@@ -133,8 +144,9 @@ def che_3(ball):
 			did_it=True
 			left_edge(row,col)
 	return(did_it)
+
 def clear_bor():
-	global times
+	global times,Matrix
 	is_back=False
 	for i in range(10):
 		for x in range(10):
@@ -151,7 +163,6 @@ def clear_bor():
 
 def movearound(event):
 	turtle.penup()
-
 	turtle.goto(event.x-475,440-event.y)
 	return(turtle.pos())
 def r(): #switch the posion of tlhe bal to the one on it's right
@@ -185,6 +196,7 @@ def r(): #switch the posion of tlhe bal to the one on it's right
 						score+=100
 						print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left")
 						
+						
 				else:
 					move_left-=1
 					print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left")
@@ -192,7 +204,7 @@ def r(): #switch the posion of tlhe bal to the one on it's right
 
 
 def l():
-	global score,move_left,times#switch the posion of the bal to the one on it's left
+	global score,move_left,times #switch the posion of the bal to the one on it's left
 	for i in range(10): 
 		for x in range(10):
 			tx=turtle.xcor()
@@ -220,10 +232,12 @@ def l():
 						move_left-=1
 						score+=100
 						print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left" )
+						
 				else:#happens if i=1
 					move_left-=1
 					score+=100
 					print("Your score is:" + str(score)+ " you have "+str(move_left)+" moves left" )
+					
 
 
 

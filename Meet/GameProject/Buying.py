@@ -8,7 +8,15 @@ from Weapons import *
 import Armor
 from Armor import *
 from startButtons import Princess
+from moveFunctions import wizard
+
+
 LevelPrice = 100
+
+
+def triviaM():
+	import trivia
+
 def Buy():
 	global LevelPrice
 	Shop = Tk()
@@ -19,10 +27,11 @@ def Buy():
 		WeaponsF = Tk()
 		WSB = Button(WeaponsF, text = "WoodenSword - 100$", command = WoodenSwordM)
 		RGB = Button(WeaponsF, text = "RubberGlove - 200$", command= RubberGloveM)
-		ISB = Button(WeaponsF, text = "WoodenSword - 600$", command =IronSwordM)
+		ISB = Button(WeaponsF, text = "IronSword - 600$", command =IronSwordM)
 		WSB.pack()
 		RGB.pack()
 		ISB.pack()
+
 	def WoodenSwordM():
 		WeaponsF.withdraw()
 		if Princess.Balance >= 100:
@@ -91,8 +100,9 @@ def Buy():
 	ArmorB = Button(Shop, text = "Armor", command = ArmorM)
 	ManaB = Button(Shop, text = "ManaRefill - 30$", command = ManaM)
 	LevelB = Button(Shop, text = "Level Up - " + str(LevelPrice) + "$", command = LevelM)
+	QUEST1 = Button(Shop, text = "Trivia - Quest1", command = triviaM)
 	WeaponsB.pack()
 	ArmorB.pack()
 	ManaB.pack()
 	LevelB.pack()
-
+	QUEST1.pack()

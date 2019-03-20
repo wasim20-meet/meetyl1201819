@@ -11,7 +11,51 @@ import time
 from intro import wizard
 import Buying
 from Buying import *
+global QUESTS
+from startButtons import winning
+QUESTS = 0
+"""
 
+
+Characters
+minigames with colliding with other characters
+mix games
+
+
+
+
+
+"""
+def SkeletonShape(bool):
+	if bool:
+		Sk.shape("SkAttacking1.gif")
+		turtle.update()
+		time.sleep(0.09)
+		Sk.shape("SkAttacking2.gif")
+		turtle.update()
+		time.sleep(0.09)
+		Sk.shape("SkAttacking3.gif")
+		Sk.Attack(Princess)
+		turtle.update()
+		time.sleep(0.5)
+		Sk.shape("SkeletonStandingAttacking.gif")
+
+def FighterShape(bool):
+	if bool:
+		Sk.shape("E1stndatck.gif")
+		turtle.update()
+		time.sleep(0.09)
+		Sk.shape("E1atck1.gif")
+		turtle.update()
+		time.sleep(0.09)
+		Sk.shape("E1atck2.gif")
+		turtle.update()
+		time.sleep(0.09)
+		Sk.shape("E1atck3.gif")
+		Sk.Attack(Princess)
+		turtle.update()
+		time.sleep(0.5)
+		Sk.shape("E1stndatck.gif")
 
 
 healtht = turtle.clone()
@@ -76,7 +120,7 @@ def Skeleton1():
 
 def Skeleton2():
 	Sk.showturtle()
-	Sk.shape()
+	Sk.shape("E1stnd.gif")
 	
 def AttackM():
 	global BG
@@ -123,17 +167,7 @@ def WaitM():
 
 def AttackSKM():
 	global BG
-	Sk.shape("SkAttacking1.gif")
-	turtle.update()
-	time.sleep(0.09)
-	Sk.shape("SkAttacking2.gif")
-	turtle.update()
-	time.sleep(0.09)
-	Sk.shape("SkAttacking3.gif")
-	Sk.Attack(Princess)
-	turtle.update()
-	time.sleep(0.5)
-	Sk.shape("SkeletonStandingAttacking.gif")
+	SkeletonShape(True)
 	turtle.update()
 	if Princess.Chp <= 0:
 				BG = "castleIn.gif"
@@ -338,10 +372,11 @@ def castleOut():
 			Princess.goto(280 - Princess.movement ,Princess.pos()[1])
 			Skeleton1()
 			Sk.goto(-200,0)
-			Sk.HP = 120
-			Sk.Chp = 120
-			Sk.defence = 12
+			Sk.HP = 200
+			Sk.Chp = 200
+			Sk.defence = 30
 			Sk.strength = 26
+
 		if Princess.pos()[1] - Princess.movement < -220:
 			Sk.hideturtle()
 			Sk.goto(1000,0)
@@ -370,6 +405,7 @@ def castleOut():
 			Princess.goto(Princess.xcor(),Princess.ycor() + Princess.movement)
 		if Princess.pos()[1] + Princess.movement > 220:
 			Princess.goto(Princess.xcor(),Princess.ycor() - Princess.movement)
+		
 
 	if startButtons.BG == "Yard2.gif":
 		if Princess.pos()[0] + Princess.movement > 280: # when u go right u go to CastleOut screen
@@ -387,6 +423,18 @@ def castleOut():
 			Princess.goto(Princess.xcor(),Princess.ycor() + Princess.movement)
 		if Princess.pos()[1] + Princess.movement > 220:
 			Princess.goto(Princess.xcor(),Princess.ycor() - Princess.movement)
+		if Princess.pos()[0] - Princess.movement < -280:
+			Princess.hideturtle()
+			Princess.goto(0,0)
+			Sk.hideturtle()
+			Sk.goto(1000,0)
+			ManaPot.goto(1000,0)
+			HealthPot.goto(1000,0)
+			turtle.setup(240*4,405*2)
+			import mario
+			from mario import *
+
+
 	if startButtons.BG == "Yard3.gif": # when u go up ...
 		if Princess.pos()[1] + Princess.movement > 240:
 			Sk.hideturtle()
@@ -404,28 +452,45 @@ def castleOut():
 		if Princess.pos()[0] + Princess.movement > 280:
 			Princess.goto(Princess.xcor() - Princess.movement,Princess.ycor())
 		if Princess.pos()[1] - Princess.movement < -240:
-			# Princess.hideturtle()
-			wn = turtle.Screen() ##################
-			wn.setup(1000,1000)
+			Princess.goto(0,0)
+			Sk.hideturtle()
+			Sk.goto(1000,0)
+			Princess.hideturtle()
+			turtle.setup(1000,1000)
 			time.sleep(0.1)
-			wn.update()
+			turtle.update()
 			start()
 			make()
 			clear_bor()
-			s = turtle.getscreen()
-			# turtle.bgpic("Beach.jpg")
-			Sk.hideturtle()
-			while True:
+			move_left = TIR.move_left
+			score = TIR.score
+			global Matrix
+			Matrix = TIR.Matrix
+			while move_left > 0:
+				move_left = TIR.move_left
+				score = TIR.score
+				win=False
+				s = turtle.getscreen()
 				turtle.getcanvas().bind("<Motion>", movearound)
 				s.onkey(r,"r")
 				s.onkey(l,"l")
 				turtle.update()
 				s.listen()
 				if TIR.score>=1500:
+					print("wooo")
+					win=True
+					from startButtons import winning
+					winning += 1
 					break
-				# if move_left == 0:
-			Princess.goto(Princess.xcor(),Princess.ycor()+100)
+			time.sleep(3)
+			unmake()
+			turtle.clear()
+			Princess.showturtle()
+			turtle.bgpic("Yard3.gif")
+			turtle.setup(560,450)
+			main()
 
+			
 
 
 def fightYard():
@@ -458,9 +523,11 @@ def main():
 		movement()
 		if (distance(Princess.pos(),Sk.pos()) < Princess.movement):
 			fightYard()
+			Sk.shape("SkeletonStandingAttacking.gif")
 		castleIn()
 		castleOut()
 		time.sleep(SLEEP)
 		checkPotCol()
 		turtle.update()
+		from startButtons import winning
 

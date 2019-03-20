@@ -20,6 +20,11 @@ global BG
 
 
 global Sk
+
+
+global winning 
+winning = 0
+
 Sk = Entity("Monster",50,50,25,25,3,15,[],Hand,Bone,[],"SkeletonStanding.gif",[],[],random.randint(1,50),random.randint(1,3))
 
 Sk.goto(0,500)
@@ -32,6 +37,14 @@ turtle.bgpic(BG)
 turtle.hideturtle()
 global Princess
 Princess = Entity("Princess",150,150,200,200,5,15,[],Stick,Cape,[],"CharacterRight.gif",[],[],1400,1)
+
+minigames = []
+
+for i in range(3):
+	minigameMan = turtle.clone()
+	minigames.append(minigameMan)
+	minigames[i].goto(1000,0)
+
 
 def HealSM():
 	global HealSF
@@ -256,3 +269,4 @@ def load():
 		wizard.hideturtle()
 	Princess.goto(shelfFile['Position'][0],shelfFile['Position'][1])
 	shelfFile.close()
+	
